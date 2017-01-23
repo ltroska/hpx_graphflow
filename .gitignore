@@ -1,0 +1,6 @@
+build/
+
+#codelite
+*.workspace
+*.project
+.codelite/
