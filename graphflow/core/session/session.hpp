@@ -31,7 +31,8 @@ public:
         {
             auto n = named_ops[p.first];
             
-            n->set_input_future_from_feed(p.second);
+            if (n != nullptr)            
+                n->set_input_future_from_feed(p.second);
         }
             
         auto exec_future = exec->run(g, feeds, fetches);
@@ -44,14 +45,15 @@ public:
         {
             auto n = named_ops[p];
             
-            n->get_output_future(0).then(
-                hpx::util::unwrapped(
-                    [&outputs](tensor t)
-                    {
-                        outputs.push_back(t);
-                    }
-                )
-            );
+            if (n != nullptr)            
+                n->get_output_future(0).then(
+                    hpx::util::unwrapped(
+                        [&outputs](tensor t)
+                        {
+                            outputs.push_back(t);
+                        }
+                    )
+                );
         }
     }
 };

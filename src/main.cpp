@@ -41,7 +41,7 @@ int hpx_main(int argc, char* argv[])
     auto g = graph::graph();
             
     auto A = Const(g.with_op_name("A"), identity);
-    auto F = Const(g.with_op_name("F"), five_identity);
+    auto F = Const(g, five_identity);
     auto B = Const(g.with_op_name("B"), random_tensor);
     auto C = MatMul(g.with_op_name("C"), A, B);
     auto D = MatMul(g.with_op_name("D"), C, A);
@@ -55,7 +55,7 @@ int hpx_main(int argc, char* argv[])
         {{"A", two_identity}};
         
     std::vector<std::string> fetches
-        {"A", "B", "C", "D", "E"};
+        {"A", "B", "C", "D", "E", "F"};
         
     s.run(g, feeds, fetches, outputs);
     
