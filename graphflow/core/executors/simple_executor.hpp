@@ -15,23 +15,14 @@ namespace graphflow { namespace executors {
     
 class simple_executor : public executor {
 public:
-    std::vector<tensor> run(graph::graph const& g,
-        std::vector<std::pair<std::string, tensor> > const& feeds,
-        std::vector<std::string> const& fetches)
-        override
-    {            
+    hpx::future<void> run(
+            graph::graph const& g,
+            std::vector<std::pair<std::string, tensor> > const& feeds,
+            std::vector<std::string> const& fetches
+        ) override
+    {        
         auto nodes = g.get_nodes();
-        auto named_ops = g.get_named_ops();
         
-        auto root = g.get_root();
-                               
-        for (auto const& p : feeds)
-        {
-            auto n = named_ops[p.first];
-            
-            n->set_input_future_from_feed(p.second);
-        }
-
         std::vector<hpx::future<void> > comp_futures;
         comp_futures.reserve(nodes.size());
 
@@ -58,27 +49,8 @@ public:
                 )
             );
         }
-        
-        std::vector<tensor> output;
-        output.reserve(fetches.size());
-        
-        for (auto const& p : fetches)
-        {
-            auto n = named_ops[p];
-            
-            n->get_output_future(0).then(
-                hpx::util::unwrapped(
-                    [&output](tensor t)
-                    {
-                        output.push_back(t);
-                    }
-                )
-            );
-        }
-        
-        hpx::wait_all(comp_futures);
-                    
-        return output;
+                                    
+        return hpx::when_all(comp_futures);
     }
 };
     

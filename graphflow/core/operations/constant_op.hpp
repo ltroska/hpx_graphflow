@@ -11,9 +11,9 @@ struct constant_op : public operation
 {   
     constant_op(tensor tens) : operation(1, 1), t(tens) {}
     
-    std::vector<tensor> compute(operation_context const& context,
-                                    std::vector<tensor> input
-                                ) const override
+    std::vector<tensor> compute(
+            operation_context const& context, std::vector<tensor> input
+        ) const override
     {               
         if (input.size() != 0)
             return input;

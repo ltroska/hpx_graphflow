@@ -28,10 +28,11 @@ class tensor
 public:
     tensor() : data_(1) {};
     tensor(std::initializer_list<std::size_t> dims)
-    : shape(dims),
-        data_(new double[shape.num_elements()], shape.num_elements(),
+    :   shape(dims),
+        data_(
+                new double[shape.num_elements()], shape.num_elements(),
                 buffer_type::take, array_deleter<double>()
-            )
+             )
     {}
         
     tensor(Eigen::MatrixXd const& mat)

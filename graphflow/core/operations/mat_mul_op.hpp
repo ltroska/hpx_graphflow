@@ -12,7 +12,9 @@ struct mat_mul_op : public operation
 {   
     mat_mul_op() : operation(2, 1) {}
     
-    std::vector<tensor> compute(operation_context const& context, std::vector<tensor> input) const override
+    std::vector<tensor> compute(
+            operation_context const& context, std::vector<tensor> input
+        ) const override
     {        
         HPX_ASSERT(input.size() == 2);
         

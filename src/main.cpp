@@ -7,7 +7,9 @@
 
 using namespace graphflow;
 
-std::shared_ptr<graph::node> MatMul(graph::graph& g, std::shared_ptr<graph::node> A, std::shared_ptr<graph::node> B)
+std::shared_ptr<graph::node> MatMul(graph::graph& g,
+    std::shared_ptr<graph::node> A, std::shared_ptr<graph::node> B
+    )
 {
     auto r = g.add_node();    
     r->set_operation(std::make_shared<operations::mat_mul_op>());
@@ -20,7 +22,9 @@ std::shared_ptr<graph::node> MatMul(graph::graph& g, std::shared_ptr<graph::node
 std::shared_ptr<graph::node> Const(graph::graph& g, tensor t)
 {
     auto r = g.add_node();    
-    r->set_operation(std::make_shared<operations::constant_op>(operations::constant_op(t)));
+    r->set_operation(
+        std::make_shared<operations::constant_op>(operations::constant_op(t))
+    );
 
     return r;
 }
@@ -56,7 +60,9 @@ int hpx_main(int argc, char* argv[])
     s.run(g, feeds, fetches, outputs);
     
     for (auto& t : outputs)
-        std::cout << Eigen::Map<Eigen::MatrixXd>(t.get_data(), t.shape[0], t.shape[1]) << std::endl<< std::endl;
+        std::cout
+            << Eigen::Map<Eigen::MatrixXd>(t.get_data(), t.shape[0], t.shape[1])
+            << std::endl << std::endl;
         
     return hpx::finalize();
 }

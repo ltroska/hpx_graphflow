@@ -9,10 +9,12 @@
 namespace graphflow { namespace executors {
     
 class executor {
-    public:
-        virtual std::vector<tensor> run(graph::graph const& g,
+public:
+    virtual hpx::future<void> run(
+            graph::graph const& g,
             std::vector<std::pair<std::string, tensor> > const& feeds,
-            std::vector<std::string> const& fetches) = 0;
+            std::vector<std::string> const& fetches
+        ) = 0;
 };
     
     

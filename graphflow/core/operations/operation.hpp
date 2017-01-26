@@ -10,9 +10,9 @@
 namespace graphflow { namespace operations {
     
 struct operation {
-    inline std::vector<tensor> operator()(operation_context const& context,
-                                            std::vector<tensor> input
-                                        ) const
+    inline std::vector<tensor> operator()(
+            operation_context const& context, std::vector<tensor> input
+        ) const
     {        
         return compute(context, input);
     }
@@ -23,9 +23,9 @@ struct operation {
 protected:
     operation(std::size_t ni, std::size_t no) : n_inputs(ni) , n_outputs(no) {}
     
-    virtual std::vector<tensor> compute(operation_context const& context,
-                                            std::vector<tensor> input
-                                        ) const = 0;
+    virtual std::vector<tensor> compute(
+            operation_context const& context, std::vector<tensor> input
+        ) const = 0;
     
     const std::size_t n_inputs = 0;
     const std::size_t n_outputs = 0;

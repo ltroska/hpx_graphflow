@@ -16,9 +16,11 @@ class edge
     friend graph;
     
 public:
-    edge(std::shared_ptr<node> src_node, std::size_t src_node_slot,
-            std::shared_ptr<node> dst_node, std::size_t dst_node_slot)
-    : src(src_node), src_slot(src_node_slot), dst(dst_node),
+    edge(
+            std::shared_ptr<node> src_node, std::size_t src_node_slot,
+            std::shared_ptr<node> dst_node, std::size_t dst_node_slot
+        )
+    :   src(src_node), src_slot(src_node_slot), dst(dst_node),
         dst_slot(dst_node_slot)
     {}
     
@@ -54,9 +56,9 @@ public:
             output_futures.push_back(p.get_future().share());
     }
     
-    inline std::shared_ptr<operations::operation> get_operation() {return op;}
+    inline std::shared_ptr<operations::operation> get_operation() { return op; }
     
-    inline std::size_t get_id() const { return id;}
+    inline std::size_t get_id() const { return id; }
     
     inline std::vector<std::shared_ptr<edge> > const& get_outedges()
     {
@@ -107,8 +109,8 @@ protected:
     std::vector<std::shared_ptr<edge> > outedges;
     std::vector<std::shared_ptr<edge> > inedges;
 
-    void add_outedge(std::shared_ptr<edge> e) {outedges.push_back(e);}
-    void add_inedge(std::shared_ptr<edge> e) {inedges.push_back(e);}
+    void add_outedge(std::shared_ptr<edge> e) { outedges.push_back(e); }
+    void add_inedge(std::shared_ptr<edge> e) { inedges.push_back(e); }
     
     std::vector<hpx::lcos::local::promise<tensor> > output_promises;
     std::vector<hpx::lcos::shared_future<tensor> > output_futures;
@@ -123,10 +125,7 @@ public:
         root = std::make_shared<node>(running_id++);
     }
 
-    inline std::shared_ptr<node> get_root() const
-    {
-        return root;
-    }
+    inline std::shared_ptr<node> get_root() const { return root; }
     
     std::shared_ptr<node> add_node()
     {
@@ -142,8 +141,10 @@ public:
         return n;
     }
     
-    void add_edge(std::shared_ptr<node> src, std::size_t src_slot,
-                    std::shared_ptr<node> dst, std::size_t dst_slot)
+    void add_edge(
+            std::shared_ptr<node> src, std::size_t src_slot,
+            std::shared_ptr<node> dst, std::size_t dst_slot
+        )
     {
         auto e = std::make_shared<edge>(src, src_slot, dst, dst_slot);
         edges.push_back(e);
